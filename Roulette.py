@@ -5,7 +5,7 @@ import sys
 #roulette numbers
 red_numbers = [19, 21, 23, 25, 27, 30, 32, 34, 36, 1, 3, 5, 7, 9, 12, 14, 16, 18]
 black_numbers = [20, 22, 24, 26, 28, 29, 31, 33, 35, 2, 4, 6, 8, 10, 11, 13, 15, 17]
-green = 0
+green_numbers = [0]
 
 #balance = 5000
 
@@ -23,7 +23,7 @@ def get_game_type():
     
 #wager function - allows player to wager an amount from their balance
 def get_wager():   
-    wager_value = int(input("How much would you like to wager(do not include punctuation?"))
+    wager_value = int(input("How much would you like to wager(do not include punctuation)?"))
     try:
         if wager_value > 5000:
             print("You don't have that much money to bet! Run the program again and choose $5000 or less.")
@@ -44,12 +44,14 @@ def get_ball_landed():
     ball_landed_value = random.randint(0,36)
     return ball_landed_value
 
-def get_red_black_guess():
-    guess_value = input("red or black?")
+def get_color_guess():
+    guess_value = input("red or black or green?")
     if guess_value == "red":
         return 1
     elif guess_value == "black":
         return 2
+    elif guess_value == "green:":
+        return 3
     else:
         return "Error - did not match red or black"
 
@@ -88,17 +90,25 @@ while True:
         print("The board and ball are spinning...")
         sleep(2)
 
-        if guess_result == random.randint(1,2):
+        if guess_result in red_numbers:
             money_won = wager_result * 2
             balance += money_won
-            print("Congratulations! The ball landed on your color! You doubled your wager and now have ${balance}.".format(balance = balance))
+            print("Congratulations! The ball landed on {bl_result} red! You doubled your wager and now have ${balance}.".format(balance = balance, bl_result= bl_result))
+        elif guess_result in black_numbers:
+            money_won = wager_result * 2
+            balance += money_won
+            print("Congratulations! The ball landed on {bl_result} black! You doubled your wager and now have ${balance}.".format(balance = balance, bl_result= bl_result))
+        elif guess_result in green_numbers:
+            money_won = wager_result * 35
+            balance += money_won
+            print("Congratulations! The ball landed on {bl_result} green! You doubled your wager and now have ${balance}.".format(balance = balance, bl_result= bl_result))    
         else:
             balance -= wager_result
-            print("You had a 50/50 shot and guessed wrong. You lost your ${wager_result} and have a new balance of ${balance}".format(wager_result=wager_result,balance = balance))
+            print("You guessed wrong. You lost your ${wager_result} and have a new balance of ${balance}".format(wager_result=wager_result,balance = balance))
     
 # to play again 
     play_again = input("Play again? (y/n): ")
     if play_again != "y":
-            print("Thanks for playing!")
+            print("Thanks for playing, {name}!".format(name = name))
             break
 
