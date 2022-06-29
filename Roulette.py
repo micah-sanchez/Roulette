@@ -10,7 +10,7 @@ green_numbers = [0]
 #balance = 5000
 
 #intro
-print("Hello! You have recently recieved an inheritance from a distant uncle! You've been left $5,000 with the caveat that you spend it all on roulette.")
+balance = int(input("Welcome to Vegas!! Time to play some roulette - how much did you bring to bet?"))
 name = input("What is your name?")
 
 #game type function to determine if you want to bet on a number or color
@@ -25,7 +25,7 @@ def get_game_type():
 def get_wager():   
     wager_value = int(input("How much would you like to wager(do not include punctuation)?"))
     try:
-        if wager_value > 5000:
+        if wager_value > balance:
             print("You don't have that much money to bet! Run the program again and choose $5000 or less.")
         else:
             return wager_value
@@ -78,8 +78,6 @@ def get_ball_landed():
     ball_landed_value = random.randint(0,36)
     return ball_landed_value
 
-balance = 5000 
-
 #while loop to continue playing and add the balance
 while True:    
 
@@ -116,7 +114,7 @@ while True:
         user_bets = get_multi_number_bets(number_guesses)
         combined_guesses_and_bets = dict(zip(number_guesses, user_bets))
         total_bet = sum(user_bets)
-        
+
         #print bets and spin
         print("Here are your bets:")
         for guess in combined_guesses_and_bets:
@@ -125,7 +123,9 @@ while True:
         print("The board and ball are spinning...")
         sleep(2)
         
-        if bl_result not in number_guesses:
+        if total_bet > balance:
+            print("You only have ${balance}, but made ${total_bet} worth of total bets. The casino made you sit out this round.".format(balance=balance, total_bet=total_bet))
+        elif bl_result not in number_guesses:
             balance -= total_bet
             print("The ball landed on {number} and lost your bet of ${total_bet}. Your new balance is ${balance}".format(number = bl_result, total_bet = total_bet, balance = balance))
         elif bl_result in number_guesses:
